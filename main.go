@@ -15,6 +15,7 @@ type model struct {
 	timetick int
 	state    string
 	tasks    []Task
+	index    int
 }
 
 func main() {
@@ -45,8 +46,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "up":
 			m.state = "up"
 			m.timetick++
+			m.index = max(0, m.index-1)
 		case "down":
 			m.state = "down"
+			m.index = min(m.index+1, len(m.tasks))
 			m.timetick++
 		case "a":
 			m.timetick++
@@ -65,7 +68,10 @@ func (m model) View() string {
 		result += fmt.Sprintf("task: %s\n", t.Title)
 	}
 
-	result += fmt.Sprintf("state: %s, tick: %d\n", m.state, m.timetick)
+	result += fmt.Sprintf("state: %s\n", m.state)
+	result += fmt.Sprintf("tick: %d\n", m.timetick)
+	result += fmt.Sprintf("index: %d\n", m.index)
+
 	return result
 
 }
