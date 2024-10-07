@@ -7,8 +7,14 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
+type Task struct {
+	Title string
+}
+
 type model struct {
-	state string
+	timetick int
+	state    string
+	tasks    []Task
 }
 
 func main() {
@@ -38,14 +44,28 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		case "up":
 			m.state = "up"
+			m.timetick++
 		case "down":
 			m.state = "down"
+			m.timetick++
+		case "a":
+			m.timetick++
+			m.tasks = append(m.tasks, Task{
+				Title: fmt.Sprintf("Auto task at %d", m.timetick),
+			})
 		}
 	}
 	return m, nil
 }
 
 func (m model) View() string {
-	return m.state
+	result := ""
+
+	for _, t := range m.tasks {
+		result += fmt.Sprintf("task: %s\n", t.Title)
+	}
+
+	result += fmt.Sprintf("state: %s, tick: %d\n", m.state, m.timetick)
+	return result
 
 }
