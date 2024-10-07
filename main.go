@@ -83,8 +83,13 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	result := ""
 
-	for _, t := range m.tasks {
-		result += fmt.Sprintf("task: %s\n", t.Title)
+	var cursor string
+	for i, t := range m.tasks {
+		cursor = "  "
+		if m.index.ok && m.index.value == i {
+			cursor = "> "
+		}
+		result += fmt.Sprintf("%s task: %s\n", cursor, t.Title)
 	}
 
 	result += fmt.Sprintf("state: %s\n", m.state)
