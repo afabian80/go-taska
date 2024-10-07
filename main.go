@@ -48,6 +48,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 
 	case tea.KeyMsg:
+		// fmt.Printf("Key is %s\n", msg.String())
 		switch msg.String() {
 		case "ctrl+c", "q":
 			return m, tea.Quit
@@ -75,6 +76,20 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				Title: fmt.Sprintf("Auto task at %d", m.timetick),
 			})
 			m.index.ok = true
+		case "delete":
+			m.timetick++
+			if m.index.ok {
+				if len(m.tasks) == 1 {
+					m.tasks = append(m.tasks[:m.index.value], m.tasks[m.index.value+1:]...)
+					m.index = OptionalInt{
+						value: 0,
+						ok:    false,
+					}
+				} else {
+					m.tasks = append(m.tasks[:m.index.value], m.tasks[m.index.value+1:]...)
+					m.index.value = max(0, m.index.value-1)
+				}
+			}
 		}
 	}
 	return m, nil
