@@ -7,6 +7,11 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
+type OptionalInt struct {
+	value int
+	ok    bool
+}
+
 type Task struct {
 	Title string
 }
@@ -15,7 +20,7 @@ type model struct {
 	timetick int
 	state    string
 	tasks    []Task
-	index    int
+	index    OptionalInt
 }
 
 func main() {
@@ -28,7 +33,10 @@ func main() {
 
 func initialModel() model {
 	return model{
-		state: "",
+		timetick: 0,
+		state:    "",
+		tasks:    []Task{},
+		index:    OptionalInt{},
 	}
 }
 
@@ -46,16 +54,27 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "up":
 			m.state = "up"
 			m.timetick++
-			m.index = max(0, m.index-1)
+			if m.index.ok {
+				m.index = OptionalInt{
+					value: max(0, m.index.value-1),
+					ok:    true,
+				}
+			}
 		case "down":
 			m.state = "down"
-			m.index = min(m.index+1, len(m.tasks))
 			m.timetick++
+			if m.index.ok {
+				m.index = OptionalInt{
+					value: min(m.index.value+1, len(m.tasks)-1),
+					ok:    true,
+				}
+			}
 		case "a":
 			m.timetick++
 			m.tasks = append(m.tasks, Task{
 				Title: fmt.Sprintf("Auto task at %d", m.timetick),
 			})
+			m.index.ok = true
 		}
 	}
 	return m, nil
@@ -70,7 +89,7 @@ func (m model) View() string {
 
 	result += fmt.Sprintf("state: %s\n", m.state)
 	result += fmt.Sprintf("tick: %d\n", m.timetick)
-	result += fmt.Sprintf("index: %d\n", m.index)
+	result += fmt.Sprintf("index: %v\n", m.index)
 
 	return result
 
