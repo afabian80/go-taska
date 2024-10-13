@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 )
 
 type model struct {
@@ -51,14 +52,21 @@ func (m model) View() string {
 
 	var cursor string
 
-	for i, task := range m.taskList.Tasks {
-		if i == m.taskList.Index {
+	selectedStyle := lipgloss.NewStyle().Background(lipgloss.Color("#00AA00"))
+
+	for index, task := range m.taskList.Tasks {
+		if index == m.taskList.Index {
 			cursor = " > "
 		} else {
 			cursor = "   "
 		}
 
-		result += fmt.Sprintf("%2vTask: %v\n", cursor, task)
+		text := fmt.Sprintf("%2vTask: %v", cursor, task)
+		if index == m.taskList.Index {
+			result += fmt.Sprintln(selectedStyle.Render(text))
+		} else {
+			result += fmt.Sprintln(text)
+		}
 	}
 
 	return result
