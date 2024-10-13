@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type TaskList struct {
 	Tasks []Task
 	Index int
@@ -28,9 +30,9 @@ func (tl *TaskList) moveDown() {
 	}
 }
 
-func (tl *TaskList) addDefault() {
+func (tl *TaskList) addDefault(timetick int) {
 	tl.Tasks = append(tl.Tasks, Task{
-		Title: "default",
+		Title: fmt.Sprintf("Task @%d", timetick),
 	})
 }
 
