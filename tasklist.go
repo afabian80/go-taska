@@ -1,0 +1,35 @@
+package main
+
+type TaskList struct {
+	Tasks []Task
+	Index int
+}
+
+func NewTaskList() TaskList {
+	return TaskList{
+		Tasks: []Task{},
+		Index: 0,
+	}
+}
+
+func (tl *TaskList) moveUp() {
+	if len(tl.Tasks) > 0 {
+		if tl.Index > 0 {
+			tl.Index--
+		}
+	}
+}
+
+func (tl *TaskList) moveDown() {
+	if len(tl.Tasks) > 0 {
+		if tl.Index < (len(tl.Tasks) - 1) {
+			tl.Index++
+		}
+	}
+}
+
+func (tl *TaskList) addDefault() {
+	tl.Tasks = append(tl.Tasks, Task{
+		Title: "default",
+	})
+}
