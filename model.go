@@ -24,9 +24,9 @@ func (m model) Init() tea.Cmd {
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
-
 	case tea.KeyMsg:
 		m.timetick++
+
 		switch msg.String() {
 		case "ctrl+c", "q":
 			return m, tea.Quit
@@ -40,11 +40,13 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.taskList.deleteSelected()
 		}
 	}
+
 	return m, nil
 }
 
 func (m model) View() string {
 	result := fmt.Sprintf("Timetick: %d\n", m.timetick)
 	result += fmt.Sprintf("TaskList: %v\n", m.taskList)
+
 	return result
 }

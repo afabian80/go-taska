@@ -1,0 +1,15 @@
+linters:
+  enable-all: true
+  disable:
+    - depguard
+    - ireturn
+    - forbidigo
+    - gocritic
+    - exportloopref # deprecated
+    - execinquery # deprecated
+    - gomnd # deprecated
+
+# linter-settings:
+#   gocritic:
+#     disabled-checks:
+#       - singleCaseSwitch

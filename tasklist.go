@@ -33,6 +33,7 @@ func (tl *TaskList) moveDown() {
 func (tl *TaskList) addDefault(timetick int) {
 	tl.Tasks = append(tl.Tasks, Task{
 		Title: fmt.Sprintf("Task @%d", timetick),
+		State: 0,
 	})
 }
 
@@ -47,5 +48,4 @@ func (tl *TaskList) deleteSelected() {
 			tl.Index--
 		}
 	}
-
 }
