@@ -37,6 +37,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "a":
 			m.taskList.addDefault()
 		case "delete":
+			m.taskList.deleteSelected()
 		}
 	}
 	return m, nil

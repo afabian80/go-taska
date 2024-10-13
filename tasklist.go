@@ -33,3 +33,17 @@ func (tl *TaskList) addDefault() {
 		Title: "default",
 	})
 }
+
+func (tl *TaskList) deleteSelected() {
+	if len(tl.Tasks) == 0 {
+		return
+	}
+
+	if tl.Index < len(tl.Tasks) && tl.Index >= 0 {
+		tl.Tasks = append(tl.Tasks[:tl.Index], tl.Tasks[tl.Index+1:]...)
+		if tl.Index > 0 {
+			tl.Index--
+		}
+	}
+
+}
