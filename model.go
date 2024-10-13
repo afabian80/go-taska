@@ -48,7 +48,18 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m model) View() string {
 	result := fmt.Sprintf("Timetick: %d\n", m.timetick)
-	result += fmt.Sprintf("TaskList: %v\n", m.taskList)
+
+	var cursor string
+
+	for i, task := range m.taskList.Tasks {
+		if i == m.taskList.Index {
+			cursor = " > "
+		} else {
+			cursor = "   "
+		}
+
+		result += fmt.Sprintf("%2vTask: %v\n", cursor, task)
+	}
 
 	return result
 }
