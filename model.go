@@ -36,6 +36,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.taskList.moveDown()
 		case "a":
 			m.taskList.addDefault(m.timetick)
+		case " ":
+			m.taskList.markDone()
 		case "delete":
 			m.taskList.deleteSelected()
 		}

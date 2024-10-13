@@ -33,7 +33,7 @@ func (tl *TaskList) moveDown() {
 func (tl *TaskList) addDefault(timetick int) {
 	tl.Tasks = append(tl.Tasks, Task{
 		Title: fmt.Sprintf("Task @%d", timetick),
-		State: 0,
+		Done:  false,
 	})
 }
 
@@ -48,4 +48,12 @@ func (tl *TaskList) deleteSelected() {
 			tl.Index--
 		}
 	}
+}
+
+func (tl *TaskList) markDone() {
+	if len(tl.Tasks) == 0 {
+		return
+	}
+
+	tl.Tasks[tl.Index].Done = !tl.Tasks[tl.Index].Done
 }
