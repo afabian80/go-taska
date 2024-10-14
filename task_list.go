@@ -70,10 +70,12 @@ func (tl *TaskList) selected() (*Task, bool) {
 		return nil, false
 	}
 
-	t := &tl.Tasks[tl.Index]
-	if t == nil {
-		return t, false
+	task := &tl.Tasks[tl.Index]
+
+	// FIX impossible condition
+	if task == nil {
+		return task, false
 	}
 
-	return t, true
+	return task, true
 }
