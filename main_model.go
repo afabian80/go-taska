@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -41,7 +42,14 @@ func (m mainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.taskList.markDone()
 		case "delete":
 			m.taskList.deleteSelected()
+		case "enter", "return":
+			t, ok := m.taskList.selected()
+			if ok {
+				return m, t.OnPress
+			}
 		}
+	case toggleCasingMsg:
+		return m.toggleSelectedItemCase(), nil
 	}
 
 	return m, nil
@@ -70,4 +78,20 @@ func (m mainModel) View() string {
 	}
 
 	return result
+}
+
+func (m mainModel) toggleSelectedItemCase() tea.Model {
+	task, ok := m.taskList.selected()
+	if ok {
+		lowerTitle := strings.ToLower(task.Title)
+		upperTitle := strings.ToUpper(task.Title)
+
+		if task.Title == upperTitle {
+			task.Title = lowerTitle
+		} else {
+			task.Title = upperTitle
+		}
+	}
+
+	return m
 }

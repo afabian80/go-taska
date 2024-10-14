@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	tea "github.com/charmbracelet/bubbletea"
+)
 
 type TaskList struct {
 	Tasks []Task
@@ -34,6 +38,9 @@ func (tl *TaskList) addDefault(timetick int) {
 	tl.Tasks = append(tl.Tasks, Task{
 		Title: fmt.Sprintf("Task @%d", timetick),
 		Done:  false,
+		OnPress: func() tea.Msg {
+			return toggleCasingMsg{}
+		},
 	})
 }
 
@@ -56,4 +63,17 @@ func (tl *TaskList) markDone() {
 	}
 
 	tl.Tasks[tl.Index].Done = !tl.Tasks[tl.Index].Done
+}
+
+func (tl *TaskList) selected() (*Task, bool) {
+	if len(tl.Tasks) == 0 {
+		return nil, false
+	}
+
+	t := &tl.Tasks[tl.Index]
+	if t == nil {
+		return t, false
+	}
+
+	return t, true
 }

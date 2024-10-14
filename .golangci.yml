@@ -5,6 +5,7 @@ linters:
     - ireturn
     - forbidigo
     - gocritic
+    - cyclop
     - exportloopref # deprecated
     - execinquery # deprecated
     - gomnd # deprecated
