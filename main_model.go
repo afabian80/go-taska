@@ -7,23 +7,23 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-type model struct {
+type mainModel struct {
 	timetick int
 	taskList TaskList
 }
 
-func initialModel() model {
-	return model{
+func initialMainModel() mainModel {
+	return mainModel{
 		timetick: 0,
 		taskList: NewTaskList(),
 	}
 }
 
-func (m model) Init() tea.Cmd {
+func (m mainModel) Init() tea.Cmd {
 	return nil
 }
 
-func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+func (m mainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		m.timetick++
@@ -47,7 +47,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, nil
 }
 
-func (m model) View() string {
+func (m mainModel) View() string {
 	result := fmt.Sprintf("Timetick: %d\n", m.timetick)
 
 	var cursor string
